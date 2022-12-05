@@ -15,6 +15,17 @@
                     @endif
 
                     {{ __('You are logged in!') }}
+
+                    <div class="container text-center mt-5">
+                        <div class="row">
+                            <div class="col">
+                                <a href="{{ url('alumne') }}" class="btn btn-outline-primary btn-lg">👥 Llistat d'alumnes</a>
+                            </div>
+                            <div class="col">
+                                <a href="{{ url('centre') }}" class="btn btn-outline-primary btn-lg">🏛 Llistat de centres</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
