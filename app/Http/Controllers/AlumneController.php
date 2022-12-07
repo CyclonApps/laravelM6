@@ -36,14 +36,14 @@ class AlumneController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-{
-    $alumne = new Alumne;
-    $title = __("Afegir alumne");
-    $textButton = __("Afegir");
-    $route = route("alumne.store");
-    $centres = Centre::all();
-    return view("alumne.create", compact("alumne", "title", "textButton", "route", "centres"));
-}
+    {
+        $alumne = new Alumne;
+        $title = __("Afegir alumne");
+        $textButton = __("Afegir");
+        $route = route("alumne.store");
+        $centres = Centre::all();
+        return view("alumne.create", compact("alumne", "title", "textButton", "route", "centres"));
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -52,17 +52,17 @@ class AlumneController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-{
-    $this->validate($request, [
-        "nom" => "required",
-        "cognoms" => "required",
-        "data_naixement" => "required|date",
-        "centre_id" => "required"
-    ]);
-    Alumne::create($request->all());
-    return redirect(route("alumne.index"))
-		    ->with("success", __("L'alumne " . $request->nom . " " . $request->cognoms . " s'ha afegit correctament!"));
-}
+    {
+        $this->validate($request, [
+            "nom" => "required",
+            "cognoms" => "required",
+            "data_naixement" => "required|date",
+            "centre_id" => "required"
+        ]);
+        Alumne::create($request->all());
+        return redirect(route("alumne.index"))
+                ->with("success", __("L'alumne " . $request->nom . " " . $request->cognoms . " s'ha afegit correctament!"));
+    }
 
     /**
      * Display the specified resource.
@@ -81,9 +81,14 @@ class AlumneController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Alumne $alumne)
     {
-        //
+        $update = true;
+        $title = __("Editar alumne");
+        $textButton = __("Actualitzar");
+        $route = route("alumne.update", ["alumne" => $alumne]);
+        $centres = Centre::all();
+        return view("alumne.edit", compact("alumne", "update", "title", "textButton", "route", "centres"));
     }
 
     /**
@@ -93,9 +98,17 @@ class AlumneController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Alumne $alumne)
     {
-        //
+        $this->validate($request, [
+            "nom" => "required",
+            "cognoms" => "required",
+            "data_naixement" => "required|date",
+            "centre_id" => "required"
+            ]);
+            $alumne->update($request->all());
+            return back()
+                ->with("success", __("L'alumne " . $request->nom . " " . $request->cognoms . " s'ha actualitzat correctament!"));
     }
 
     /**
@@ -104,8 +117,9 @@ class AlumneController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Alumne $alumne)
     {
-        //
+        $alumne->delete();
+        return back()->with("success", __("L'alumne " . $alumne->nom . " " . $alumne->cognoms . " s'ha eliminat correctament"));
     }
 }
