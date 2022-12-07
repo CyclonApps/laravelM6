@@ -11,7 +11,7 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
     </head>
     <body class="bg-secondary">
-        <nav class="navbar navbar-expand-lg bg-dark">
+        <nav class="row navbar navbar-expand-lg bg-dark">
             <div class="container-fluid">
                 <div class="navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
@@ -30,10 +30,12 @@
                 </div>
             </div>
         </nav>
-        <div class="container p-2 text-dark border rounded text-center text-white">
-            <div class="fs-2 fw-bold underline">Crud amb Laravel</div>
-            <div class="fs-4 fw-bold">Pau Garcia Pascual</div>
-            <div class="fs-5 fw-bold">M06 DAM2T</div>
+        <div class="row justify-content-center align-items-center vh-100 p-2 text-center text-white">
+            <div class="col-4 border rounded">
+                <div class="fs-2 fw-bold underline">Crud amb Laravel</div>
+                <div class="fs-4 fw-bold">Pau Garcia Pascual</div>
+                <div class="fs-5 fw-bold">M06 DAM2T</div>
+            </div>
         </div>
     </body>
 </html>
