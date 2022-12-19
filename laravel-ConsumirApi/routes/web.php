@@ -18,3 +18,5 @@ Route::get('/', function () {
 });
 
 Route::get('/', [App\Http\Controllers\APIController::class, 'getPhotosFromAPI']);
+
+Route::get('/save', [App\Http\Controllers\APIController::class, 'saveDataFromAPI']);
