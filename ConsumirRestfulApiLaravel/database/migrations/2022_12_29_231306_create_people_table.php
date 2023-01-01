@@ -13,17 +13,22 @@ return new class extends Migration
      */
     public function up()
     {
+        Schema::disableForeignKeyConstraints();
+
         Schema::create('people', function (Blueprint $table) {
             $table->id();
+            $table->timestamps();
             $table->string('nom');
-            $table->double('alcada');
-            $table->double('pes');
+            $table->string('alcada');
+            $table->string('pes');
             $table->string('colorCabell');
             $table->string('colorPell');
             $table->string('colorUlls');
             $table->string('anyNaixement');
             $table->string('genere');
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
     /**
@@ -33,6 +38,10 @@ return new class extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
+
         Schema::dropIfExists('people');
+
+        Schema::enableForeignKeyConstraints();
     }
 };

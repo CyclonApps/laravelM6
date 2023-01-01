@@ -11,10 +11,13 @@ class APIController extends Controller
     function savePeopleFromApiToDB() {
         // https://swapi.dev/api/people/?page=1&format=json
         // Recuperem de 10 en 10 els personatges i els guardem a la base de dades
-        for ($i = 1; $i < 10; $i++) {
+        $url = "https://swapi.dev/api/people/?page=1&format=json";
+
+        while ($url != null) {
+
 
             // Recuperar personatges
-            $people = HTTP::get("https://swapi.dev/api/people/?page=" . $i . "&format=json");
+            $people = HTTP::get($url . "&format=json");
             $peopleArray = $people->json();
 
             // Guardar personatges
@@ -31,10 +34,22 @@ class APIController extends Controller
                     'genere' => $elem['gender']
                 ]);
             }
+
+            $url = $peopleArray['next'];
         }
+
+        if (People::count() > 0) {
+            echo "Personatges desats correctament";
+            echo "<p><a href='http://localhost:8000'>Tornar</a>";
+        } else {
+            echo "No s'han afegit els personatges";
+            echo "<p><a href='http://localhost:8000'>Tornar</a>";
+        }
+
     }
 
-    function getbd() {
-
+    function getPeopleFromDB() {
+        $people = People::paginate(10);
+        return view("people", compact("people"));
     }
 }
