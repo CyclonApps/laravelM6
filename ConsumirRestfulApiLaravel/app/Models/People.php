@@ -17,6 +17,7 @@ class People extends Model
         'colorPell',
         'colorUlls',
         'anyNaixement',
-        'genere'
+        'genere',
+        'planeta'
     ];
 }

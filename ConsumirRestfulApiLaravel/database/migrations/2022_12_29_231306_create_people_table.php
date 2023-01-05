@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('colorUlls');
             $table->string('anyNaixement');
             $table->string('genere');
+            $table->string('planeta');
         });
 
         Schema::enableForeignKeyConstraints();

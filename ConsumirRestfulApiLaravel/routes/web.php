@@ -18,3 +18,5 @@ Route::get('/', function () {
 });
 
 Route::get('getPeople', [App\Http\Controllers\APIController::class, 'getPeopleFromDB']);
+
+Route::get('getApiPeople', [App\Http\Controllers\APIController::class, 'getPeopleFromApi']);
