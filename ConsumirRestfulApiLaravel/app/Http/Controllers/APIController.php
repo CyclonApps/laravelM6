@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\People;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class APIController extends Controller
 {
@@ -57,31 +60,42 @@ class APIController extends Controller
     function getPeopleFromApi() {
         // https://swapi.dev/api/people/?page=1&format=json
         // Recuperem de 10 en 10 els personatges i els guardem a la base de dades
+        ini_set('max_execution_time', 500);
         $url = "https://swapi.dev/api/people/?page=1&format=json";
-        $people = array();
+        $peopleArray = array();
 
         while ($url != null) {
 
             // Recuperar personatges
             $peopleJson = json_decode(HTTP::get($url), true);
 
-            $people = array_merge($people, array($peopleJson));
+            $peopleArray = array_merge($peopleArray, $peopleJson['results']);
 
             $url = $peopleJson['next'];
         }
 
-        echo json_encode($people);
+        // Cambiem les rutes dels planetes pels noms dels planetes
         /* for($i = 0; $i < count($people); $i++) {
-            echo $people['results'][$i]['homeworld'] = Http::get($people['results'][$i]['homeworld'] . "/?format=json")['name'];
+            $people[$i]['homeworld'] = Http::get($people[$i]['homeworld'] . "/?format=json")['name'];
         } */
 
-        //var_dump($people);
-
-        /* if (count($people) > 0) {
-            return view ("people", compact("people"));
+        // Retornem la vista per mostrar els personatges
+        if (count($peopleArray) > 0) {
+            $people = $this->paginate($peopleArray);
+            return view ("peopleApi", compact("people"));
         } else {
             echo "Error al recuperar els personatges";
             echo "<p><a href='http://localhost:8000'>Tornar</a>";
-        } */
+        }
+    }
+
+    public function paginate($items, $perPage = 10, $page = null)
+    {
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+        $total = count($items);
+        $currentpage = $page;
+        $offset = ($currentpage * $perPage) - $perPage ;
+        $itemstoshow = array_slice($items , $offset , $perPage);
+        return new LengthAwarePaginator($itemstoshow ,$total   ,$perPage);
     }
 }
