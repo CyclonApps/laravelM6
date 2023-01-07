@@ -11,7 +11,9 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class APIController extends Controller
 {
+
     function savePeopleFromApiToDB() {
+        ini_set('max_execution_time', '300');
         // https://swapi.dev/api/people/?page=1&format=json
         // Recuperem de 10 en 10 els personatges i els guardem a la base de dades
         $url = "https://swapi.dev/api/people/?page=1&format=json";
@@ -58,6 +60,7 @@ class APIController extends Controller
     }
 
     function getPeopleFromApi() {
+        ini_set('max_execution_time', '300');
         // https://swapi.dev/api/people/?page=1&format=json
         // Recuperem de 10 en 10 els personatges i els guardem a la base de dades
         ini_set('max_execution_time', 500);
@@ -74,14 +77,15 @@ class APIController extends Controller
             $url = $peopleJson['next'];
         }
 
-        // Cambiem les rutes dels planetes pels noms dels planetes
-        /* for($i = 0; $i < count($people); $i++) {
-            $people[$i]['homeworld'] = Http::get($people[$i]['homeworld'] . "/?format=json")['name'];
-        } */
+        //Cambiem les rutes dels planetes pels noms dels planetes
+        for($i = 0; $i < count($peopleArray); $i++) {
+            $peopleArray[$i]['homeworld'] = Http::get($peopleArray[$i]['homeworld'] . "/?format=json")['name'];
+        }
 
         // Retornem la vista per mostrar els personatges
         if (count($peopleArray) > 0) {
             $people = $this->paginate($peopleArray);
+            $people->withPath("/getApiPeople");
             return view ("peopleApi", compact("people"));
         } else {
             echo "Error al recuperar els personatges";
@@ -95,7 +99,7 @@ class APIController extends Controller
         $total = count($items);
         $currentpage = $page;
         $offset = ($currentpage * $perPage) - $perPage ;
-        $itemstoshow = array_slice($items , $offset , $perPage);
-        return new LengthAwarePaginator($itemstoshow ,$total   ,$perPage);
+        $itemstoshow = array_slice($items, $offset, $perPage);
+        return new LengthAwarePaginator($itemstoshow ,$total ,$perPage);
     }
 }

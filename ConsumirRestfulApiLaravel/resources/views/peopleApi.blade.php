@@ -33,7 +33,7 @@
                 <td>{{ $character['eye_color'] }}</td>
                 <td>{{ $character['birth_year'] }}</td>
                 <td>{{ $character['gender'] }}</td>
-                <td>{{ Http::get($character['homeworld'] . "/?format=json")['name'] }}</td>
+                <td>{{ $character['homeworld'] }}</td>
             </tr>
             @empty
             <tr>
